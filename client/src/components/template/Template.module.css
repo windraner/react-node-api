@@ -1,0 +1,35 @@
+.container {
+  max-width: 750px;
+  margin: auto;
+}
+
+.nav-wrapper {
+  padding: 1.5rem;
+  background: #eee;
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+}
+
+.nav-link {
+  font-size: 0.875rem;
+  line-height: 1.3125rem;
+  font-weight: 600;
+  padding: 0.4375rem 1rem;
+  background-color: #ea7835;
+  border-color: #d26b2f;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+}
+
+.nav-link:hover {
+  background-color: #eb7f40;
+  border-color: #d37239;
+}
+
+.nav-link:active {
+  background-color: #d86f31;
+  border-color: #c1632c;
+}

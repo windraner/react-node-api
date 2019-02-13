@@ -1,0 +1,20 @@
+.custom-input-wrapper {
+  margin-bottom: 1rem;
+}
+
+.custom-input {
+  border: 1px solid #d0d6de;
+  border-radius: 4px;
+  color: #354052;
+  font-size: 0.875rem;
+  outline: none;
+  padding: 0.5rem 0.75rem;
+}
+
+.custom-input:hover {
+  border-color: #bfc4cb;
+}
+
+.custom-input:active {
+  border-color: #a9b0b8;
+}

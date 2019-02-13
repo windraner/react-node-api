@@ -1,28 +1,71 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import { Router, Switch, Route, Redirect } from 'react-router-dom';
+import createHistory from 'history/createBrowserHistory'
+import { Provider } from 'react-redux';
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
-  }
+import Template from './components/template/Template';
+
+import LoginPage from './containers/LoginPage';
+import SignUpPage from './containers/SignUpPage';
+import LogoutPage from './containers/LogoutPage';
+import HomePage from './containers/HomePage';
+
+import { store } from './index';
+
+export const browserHistory = createHistory();
+
+const checkIsAuth = (component) => {
+  const { token } = store.getState();
+
+  if(!token) return <Redirect to="/login" />;
+
+  return (
+    <Template>
+      {component}
+    </Template>
+  );
 }
+
+const checkIsNotAuth = (component) => {
+  const { token } = store.getState();
+
+  if(token) return <Redirect to="/" />;
+
+  return (
+    <Template>
+      {component}
+    </Template>
+  );
+}
+
+const App = ({ store }) => {
+  return (
+    <Provider store={store}>
+      <Router history={browserHistory}>
+        <Switch>
+          <Route
+            path="/login"
+            render={(props) => checkIsNotAuth(<LoginPage />)}
+          />
+
+          <Route
+            path="/signup"
+            render={() => checkIsNotAuth(<SignUpPage />)}
+          />
+
+          <Route
+            path="/logout"
+            render={() => checkIsAuth(<LogoutPage />)}
+          />
+
+          <Route
+            path="/"
+            render={() => checkIsAuth(<HomePage />)}
+          />
+        </Switch>
+      </Router>
+    </Provider>
+  );
+};
 
 export default App;
