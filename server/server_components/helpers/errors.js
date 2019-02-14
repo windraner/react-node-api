@@ -45,3 +45,10 @@ export class HttpUnprocessableEntityError extends HttpError {
         this.details = details;
     }
 }
+
+export class HttpConflictError extends HttpError {
+  constructor(message, details) {
+    super(message || httpStatus[httpStatus.CONFLICT], httpStatus.CONFLICT);
+    this.details = details;
+  }
+}

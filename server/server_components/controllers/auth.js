@@ -2,7 +2,7 @@ import Joi from 'joi';
 import userProvider from '../providers/user';
 import { OK, UNAUTHORIZED } from 'http-status';
 import { compareSync } from 'bcrypt';
-import { HttpNotFoundError } from "../helpers/errors";
+import { HttpNotFoundError, HttpConflictError } from "../helpers/errors";
 import { createToken } from "../helpers/jwtToken";
 
 export const registerSchema = {
@@ -33,22 +33,11 @@ export const login = async (req, res, next) => {
   }
 };
 
-export const logout = async (req, res, next) => {
-  try {
-    return res.status(OK).json({ auth: false, token: null });
-  } catch (e) {
-    return next(e);
-  }
-};
-
 export const register = async (req, res, next) => {
   try {
     const isUserExist =  await userProvider.checkIsExist({ email: req.body.email });
     if(isUserExist) {
-      return res.status(OK).json({
-        auth: false,
-        message: 'user already exist'
-      });
+      return next(new HttpConflictError('user already exsist'));
     }
 
     const user = await userProvider.create({

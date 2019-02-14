@@ -2,8 +2,7 @@ import * as CONSTANT from './constant';
 
 const initialState = {
   [CONSTANT.TOKEN]: '',
-  [CONSTANT.USER_ID]: '',
-  [CONSTANT.EMAIL]: '',
+  [CONSTANT.ERROR]: '',
 };
 
 export default function reducer(state = initialState, action) {
@@ -15,14 +14,10 @@ export default function reducer(state = initialState, action) {
       };
     }
 
-    case CONSTANT.SET_USER_DATA: {
-      const { name, email, token } = action.payload;
-
+    case CONSTANT.ERROR: {
       return {
         ...state,
-        [CONSTANT.TOKEN]: token,
-        [CONSTANT.USER_ID]: name,
-        [CONSTANT.EMAIL]: email,
+        [CONSTANT.ERROR]: action.payload,
       };
     }
 

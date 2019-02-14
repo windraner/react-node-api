@@ -1,36 +1,30 @@
 const express = require('express');
-const path = require('path');
 const router = express.Router();
 
 import validate from './helpers/validate';
 import { verifyToken } from "./helpers/jwtToken";
 import {
-    getUser,
-    register,
-    logout,
-    login,
-    loginSchema,
-    registerSchema
+  getUser,
+  register,
+  logout,
+  login,
+  loginSchema,
+  registerSchema
 } from "./controllers/auth";
 
 router.post('/register',
-    validate(registerSchema),
-    register,
+  validate(registerSchema),
+  register,
 );
 
 router.get('/info',
-    verifyToken,
-    getUser
+  verifyToken,
+  getUser
 );
 
 router.post('/login',
-    validate(loginSchema),
-    login
-);
-
-router.get('/logout',
-    verifyToken,
-    logout
+  validate(loginSchema),
+  login
 );
 
 module.exports = router;

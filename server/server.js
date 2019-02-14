@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const routes = require('./server_components/routes');
@@ -25,9 +24,6 @@ mongoose.connection.on('error', (err) => {
 
 const app = express();
 
-// serves up static files from the public folder. Anything in public/ will just be served up as the file it is
-app.use(express.static(path.join(__dirname, 'client/build')));
-
 // Takes the raw requests and turns them into usable properties on req.body
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -47,9 +43,9 @@ app.use((req, res, next) => next(new HttpBadRequestError()));
 
 // Error handler
 app.use((err, req, res, next) => {
-    const { status, code, message, details } = err;
-    console.error(err);
-    res.status(status || 500).json({ code, message, details });
+  const { status, code, message, details } = err;
+
+  res.status(status || 500).json({ code, message, details });
 });
 
 const server = app.listen(process.env.PORT || 8080, () => {

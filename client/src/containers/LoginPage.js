@@ -1,15 +1,28 @@
 import React, { Component } from 'react'
 import CustomInput from '../components/custom-input/CustomInput';
 import CustomButton from '../components/custom-button/CustomButton';
+import { connect } from 'react-redux';
+import { sendLoginAttempt } from '../actions';
+import * as CONSTANT from '../constant';
 
-export default class LoginPage extends Component {
+class LoginPage extends Component {
   state = {
     email: '',
     password: '',
   }
 
+  loginHandler = () => {
+    const { email, password } = this.state;
+    const data = {
+      email,
+      password
+    };
+
+    this.props.sendLoginAttempt(data);
+  }
+
   render() {
-    const { email, password, confirm } = this.state;
+    const { email, password } = this.state;
 
     return (
       <div>
@@ -28,8 +41,26 @@ export default class LoginPage extends Component {
 
         <CustomButton
           text="Log In"
+          clickHandler={this.loginHandler}
         />
       </div>
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  const token = state[CONSTANT.TOKEN];
+  const error = state[CONSTANT.ERROR];
+
+  return (
+    { token, error }
+  );
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    sendLoginAttempt: (data) => dispatch(sendLoginAttempt(data)),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

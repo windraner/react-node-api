@@ -1,0 +1,9 @@
+.custom-error {
+  padding: 1rem;
+  background: rgba(255, 0, 0, 0.1);
+  border: 2px solid red;
+  border-radius: 4px;
+  font-weight: 600;
+  color: red;
+  margin-bottom: 0.5rem;
+}

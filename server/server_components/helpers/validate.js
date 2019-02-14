@@ -16,8 +16,7 @@ export const validator = (schema) => {
     const value = Object.assign({}, req.query, req.body, req.params);
     return Joi.validate(value, schema, (err) => {
       if (err) {
-        const errors = Array.from(err.details).reduce(reduceDetails, {});
-        next(new HttpUnprocessableEntityError(err.message, errors));
+        next(new HttpUnprocessableEntityError(err.details[0].message));
       }
       next();
     });

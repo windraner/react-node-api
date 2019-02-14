@@ -11,16 +11,28 @@ import './index.css';
 
 export const store = createStore(reducer, applyMiddleware(thunk));
 
-requestHandler({ type: 'get', url: '/info' })
+let token = window.localStorage.getItem('token');
+
+const options = {
+  type: 'get',
+  url: '/info',
+  headers: {
+    'Content-Type': 'application/json',
+    'x-access-token': token,
+  }
+}
+
+requestHandler(options)
   .then((res) => {
-    if(!res.data.auth) {
+    store.dispatch({ type: CONSTANT.TOKEN, payload: token });
+
+    ReactDOM.render(<App store={store} />, document.getElementById('root'));
+  }).catch((error) => {
+    if(error.response && error.response.status === 401) {
+      window.localStorage.removeItem('token');
       browserHistory.push('/login');
       store.dispatch({ type: CONSTANT.TOKEN, payload: '' });
     }
 
     ReactDOM.render(<App store={store} />, document.getElementById('root'));
-    // loading.hide();
-
-  }).catch(() => {
-    //debugger;
   });

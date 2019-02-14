@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
 import CustomInput from '../components/custom-input/CustomInput';
 import CustomButton from '../components/custom-button/CustomButton';
+import ErrorBar from '../components/error/ErrorBar';
 import { connect } from 'react-redux';
 import { sendRegistrationAttempt } from '../actions';
+import * as CONSTANT from '../constant';
 
 class SignUpPage extends Component {
   state = {
     name: '',
     email: '',
     password: '',
-    confirm: ''
   }
 
   registrationHandler = () => {
@@ -25,6 +26,7 @@ class SignUpPage extends Component {
 
   render() {
     const { name, email, password, confirm } = this.state;
+    const { error } = this.props;
 
     return (
       <div>
@@ -46,12 +48,8 @@ class SignUpPage extends Component {
           type="password"
           setValue={(value) => this.setState({ password: value})}
         />
-        <CustomInput
-          title="confirm password"
-          value={confirm}
-          type="password"
-          setValue={(value) => this.setState({ confirm: value})}
-        />
+
+        {error && <ErrorBar message={error} />}
 
         <CustomButton
           text="Create an account"
@@ -63,10 +61,11 @@ class SignUpPage extends Component {
 }
 
 const mapStateToProps = (state) => {
-  const { token } = state;
+  const token = state[CONSTANT.TOKEN];
+  const error = state[CONSTANT.ERROR];
 
   return (
-    { token }
+    { token, error }
   );
 };
 
