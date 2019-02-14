@@ -18,3 +18,9 @@
 .custom-input:active {
   border-color: #a9b0b8;
 }
+
+.custom-input-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  text-transform: capitalize;
+}

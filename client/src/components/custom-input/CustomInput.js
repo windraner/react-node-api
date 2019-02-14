@@ -4,7 +4,7 @@ import styles from './CustomInput.module.css';
 const CustomInput = ({title, value, type, setValue}) => {
   return (
     <div className={styles['custom-input-wrapper']}>
-      <div>{title}</div>
+      <div className={styles['custom-input-title']}>{title}</div>
       <input
         type={type}
         className={styles['custom-input']}

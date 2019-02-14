@@ -51,7 +51,9 @@ class Template extends Component {
       <div className={styles['container']}>
         {this.renderNavigation()}
 
-        {children}
+        <div className={styles['content-wrapper']}>
+          {children}
+        </div>
       </div>
     )
   }

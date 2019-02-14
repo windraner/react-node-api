@@ -33,3 +33,9 @@
   background-color: #d86f31;
   border-color: #c1632c;
 }
+
+.content-wrapper {
+  background: #eee;
+  padding: 2rem;
+  text-align: center;
+}

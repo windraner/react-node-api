@@ -19,7 +19,7 @@ router.post('/register',
 );
 
 router.get('/info',
-    verifyToken, 
+    verifyToken,
     getUser
 );
 
@@ -32,10 +32,5 @@ router.get('/logout',
     verifyToken,
     logout
 );
-
-router.get('/', function (req, res) {
-    console.log('qweqweqweqweqwewq')
-    res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-});
 
 module.exports = router;

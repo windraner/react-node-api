@@ -13,8 +13,8 @@ export const registerSchema = {
 };
 
 export const loginSchema = {
-    email: Joi.string().required(),
-    password: Joi.string().required()
+  email: Joi.string().required(),
+  password: Joi.string().required()
 };
 
 export const login = async (req, res, next) => {
@@ -34,32 +34,44 @@ export const login = async (req, res, next) => {
 };
 
 export const logout = async (req, res, next) => {
-    try {
-        return res.status(OK).json({ auth: false, token: null });
-    } catch (e) {
-        return next(e);
-    }
+  try {
+    return res.status(OK).json({ auth: false, token: null });
+  } catch (e) {
+    return next(e);
+  }
 };
 
 export const register = async (req, res, next) => {
-    try {
-        const user = await userProvider.create({
-            name: req.body.name,
-            email: req.body.email,
-            password: req.body.password
-        });
-        console.log(user)
-        return res.status(OK).json({ auth: true, token: createToken({ id: user._id }) });
-    } catch (e) {
-        return next(e);
+  try {
+    const isUserExist =  await userProvider.checkIsExist({ email: req.body.email });
+    if(isUserExist) {
+      return res.status(OK).json({
+        auth: false,
+        message: 'user already exist'
+      });
     }
+
+    const user = await userProvider.create({
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password
+    });
+    return res.status(OK).json({
+      auth: true,
+      token: createToken({ id: user._id }),
+      name: user.name,
+      email: user.email,
+    });
+  } catch (e) {
+    return next(e);
+  }
 };
 
 export const getUser = async (req, res, next) => {
-    try {
-        const user = await userProvider.byPrimaryKey(req.userId);
-        return res.status(OK).json(user);
-    } catch (e) {
-        return next(e);
-    }
+  try {
+    const user = await userProvider.byPrimaryKey(req.userId);
+    return res.status(OK).json(user);
+  } catch (e) {
+    return next(e);
+  }
 };
