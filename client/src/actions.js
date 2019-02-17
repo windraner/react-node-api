@@ -16,10 +16,7 @@ export const sendRegistrationAttempt = (data) => {
         dispatch({ type: CONSTANT.TOKEN, payload: response.data.token });
         browserHistory.push('/');
       }).catch(function (error) {
-        if(error.response && error.response.status === 409) {
-          dispatch({ type: CONSTANT.ERROR, payload: error.response.data.message });
-        }
-        if(error.response && error.response.status === 422) {
+        if(error.response && error.response.data.message) {
           dispatch({ type: CONSTANT.ERROR, payload: error.response.data.message });
         }
       });
@@ -40,7 +37,48 @@ export const sendLoginAttempt = (data) => {
         dispatch({ type: CONSTANT.TOKEN, payload: response.data.token });
         browserHistory.push('/');
       }).catch(function (error) {
+        if(error.response && error.response.data.message) {
+          dispatch({ type: CONSTANT.ERROR, payload: error.response.data.message });
+        }
+      });
+  };
+};
 
+export const sendCreateWorkerAttempt = (data) => {
+  return dispatch => {
+    const options = {
+      type: 'post',
+      url: '/create',
+      data,
+    };
+
+    requestHandler(options)
+      .then(response => {
+        dispatch({ type: CONSTANT.WORKERS_LIST, payload: response.data.workers });
+        dispatch({ type: CONSTANT.OPENED_MODAL, payload: null })
+      }).catch(function (error) {
+        if(error.response && error.response.data.message) {
+          dispatch({ type: CONSTANT.ERROR, payload: error.response.data.message });
+        }
+      });
+  };
+};
+
+export const fetchWorkersList = (data) => {
+  return dispatch => {
+    const options = {
+      type: 'post',
+      url: '/',
+      data,
+    };
+
+    requestHandler(options)
+      .then(response => {
+        dispatch({ type: CONSTANT.WORKERS_LIST, payload: response.data.workers });
+      }).catch(function (error) {
+        if(error.response && error.response.data.message) {
+          dispatch({ type: CONSTANT.ERROR, payload: error.response.data.message });
+        }
       });
   };
 };

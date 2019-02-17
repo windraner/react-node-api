@@ -6,25 +6,53 @@ import { verifyToken } from "./helpers/jwtToken";
 import {
   getUser,
   register,
-  logout,
   login,
   loginSchema,
   registerSchema
 } from "./controllers/auth";
+import {
+  getWorkers,
+  createWorker,
+  updateWorker,
+  removeWorker,
+  createWorkerSchema,
+} from './controllers/workerController';
+import { catchErrors } from './helpers/errorHandlers';
 
 router.post('/register',
   validate(registerSchema),
-  register,
+  catchErrors(register),
 );
 
 router.get('/info',
   verifyToken,
-  getUser
+  catchErrors(getUser)
 );
 
 router.post('/login',
   validate(loginSchema),
-  login
+  catchErrors(login)
+);
+
+router.post('/',
+  verifyToken,
+  catchErrors(getWorkers)
+);
+
+router.post('/create',
+  verifyToken,
+  validate(createWorkerSchema),
+  catchErrors(createWorker)
+);
+
+router.post('/update',
+  verifyToken,
+  catchErrors(updateWorker)
+);
+
+router.get('/delete/:id',
+  // verifyToken,
+  catchErrors(removeWorker)
 );
 
 module.exports = router;

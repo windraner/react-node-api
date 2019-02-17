@@ -8,15 +8,15 @@ const SALT_WORK_FACTOR = 11;
 
 export const encryptPassword = (password) => new Promise((resolve, reject) => {
   genSalt(SALT_WORK_FACTOR, (err, salt) => {
-      if (err) {
-          return reject(err);
+    if (err) {
+      return reject(err);
+    }
+    hash(password, salt, (errHash, hash) => {
+      if (errHash) {
+          return reject(errHash);
       }
-      hash(password, salt, (errHash, hash) => {
-          if (errHash) {
-              return reject(errHash);
-          }
-          resolve(hash);
-      });
+      resolve(hash);
+    });
   });
 });
 
@@ -62,10 +62,10 @@ userSchema.methods.checkPassword = function (password) {
 
 userSchema.set('toJSON', {
   transform: function (doc, ret, options) {
-      return {
-          email: ret.email,
-          id: ret._id
-      };
+    return {
+      email: ret.email,
+      id: ret._id
+    };
   }
 });
 

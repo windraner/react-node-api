@@ -1,9 +1,8 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const routes = require('./server_components/routes');
-
-const { HttpBadRequestError } = require('./server_components/helpers/errors');
+import express from 'express';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import routes from './server_components/routes';
+import { notFound, developmentErrors } from './server_components/helpers/errorHandlers';
 
 // Make sure we are running node 7.6+
 const [major, minor] = process.versions.node.split('.').map(parseFloat);
@@ -38,15 +37,9 @@ app.use((req, res, next) => {
 
 app.use(routes);
 
-// Catch 404 and forward to error handler
-app.use((req, res, next) => next(new HttpBadRequestError()));
+app.use(notFound);
 
-// Error handler
-app.use((err, req, res, next) => {
-  const { status, code, message, details } = err;
-
-  res.status(status || 500).json({ code, message, details });
-});
+app.use(developmentErrors);
 
 const server = app.listen(process.env.PORT || 8080, () => {
   console.log(`Express running → PORT ${server.address().port}`);

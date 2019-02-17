@@ -1,0 +1,34 @@
+.modal-container {
+  position: absolute;
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  overflow-y: scroll;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-overlay {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+}
+
+.modal-wrapper {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  width: 100%;
+  max-width: 425px;
+  padding: 40px 20px;
+  z-index: 10;
+}
+
+.modal-open {
+  overflow: hidden;
+}

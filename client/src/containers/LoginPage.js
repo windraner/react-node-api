@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import CustomInput from '../components/custom-input/CustomInput';
 import CustomButton from '../components/custom-button/CustomButton';
+import ErrorBar from '../components/error/ErrorBar';
 import { connect } from 'react-redux';
 import { sendLoginAttempt } from '../actions';
 import * as CONSTANT from '../constant';
@@ -23,6 +24,7 @@ class LoginPage extends Component {
 
   render() {
     const { email, password } = this.state;
+    const { error } = this.props;
 
     return (
       <div>
@@ -38,6 +40,8 @@ class LoginPage extends Component {
           type="password"
           setValue={(value) => this.setState({ password: value})}
         />
+
+        {error && <ErrorBar message={error} />}
 
         <CustomButton
           text="Log In"

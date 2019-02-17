@@ -3,6 +3,8 @@ import * as CONSTANT from './constant';
 const initialState = {
   [CONSTANT.TOKEN]: '',
   [CONSTANT.ERROR]: '',
+  [CONSTANT.OPENED_MODAL]: null,
+  [CONSTANT.WORKERS_LIST]: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -18,6 +20,20 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         [CONSTANT.ERROR]: action.payload,
+      };
+    }
+
+    case CONSTANT.OPENED_MODAL: {
+      return {
+        ...state,
+        [CONSTANT.OPENED_MODAL]: action.payload,
+      };
+    }
+
+    case CONSTANT.WORKERS_LIST: {
+      return {
+        ...state,
+        [CONSTANT.WORKERS_LIST]: action.payload,
       };
     }
 

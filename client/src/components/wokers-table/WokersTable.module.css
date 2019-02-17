@@ -1,0 +1,36 @@
+.table-wrapper {
+  margin: 20px 0;
+  display: table;
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.item-container {
+  display: table-row;
+  border: solid 1px #000;
+}
+
+.item-counter {
+  width: 30px;
+  display: table-cell;
+}
+
+.item-cell {
+  display: table-cell;
+  border: solid 1px #000;
+  padding: 0.25rem 0;
+}
+
+.item-edit {
+  display: table-cell;
+  width: 50px;
+  border: solid 1px #000;
+}
+
+.item-remove {
+  display: table-cell;
+  width: 70px;
+  border: solid 1px #000;
+}

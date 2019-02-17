@@ -1,5 +1,5 @@
-import Joi from "joi";
-import {HttpUnprocessableEntityError} from "./errors";
+import Joi from 'joi';
+import { UNPROCESSABLE_ENTITY } from 'http-status';
 
 export const reduceDetails = (errors, detail) => {
   const { path, type, message, context } = detail;
@@ -16,7 +16,7 @@ export const validator = (schema) => {
     const value = Object.assign({}, req.query, req.body, req.params);
     return Joi.validate(value, schema, (err) => {
       if (err) {
-        next(new HttpUnprocessableEntityError(err.details[0].message));
+        return res.status(UNPROCESSABLE_ENTITY).json({ message: err.details[0].message });
       }
       next();
     });

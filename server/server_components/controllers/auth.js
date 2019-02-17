@@ -1,15 +1,13 @@
 import Joi from 'joi';
-import userProvider from '../providers/user';
-import { OK, UNAUTHORIZED } from 'http-status';
+import User from '../models/User';
+import { OK, UNAUTHORIZED, CONFLICT, NOT_FOUND } from 'http-status';
 import { compareSync } from 'bcrypt';
-import { HttpNotFoundError, HttpConflictError } from "../helpers/errors";
-import { createToken } from "../helpers/jwtToken";
+import { createToken } from '../helpers/jwtToken';
 
 export const registerSchema = {
   name: Joi.string(),
   email: Joi.string().required().email(),
   password: Joi.string().required().min(6),
-  confirm: Joi.string(),
 };
 
 export const loginSchema = {
@@ -18,49 +16,43 @@ export const loginSchema = {
 };
 
 export const login = async (req, res, next) => {
-  try {
-    const user = await userProvider.findOne({ email: req.body.email });
-    if (!user) {
-        return next(new HttpNotFoundError());
-    }
-    const passwordIsValid = compareSync(req.body.password, user.password);
-    if (!passwordIsValid) {
-        return res.status(UNAUTHORIZED).json({ auth: false, token: null });
-    }
-    return res.status(OK).json({ auth: true, token: createToken({ id: user._id }) });
-  } catch (e) {
-    return next(e);
+  const user = await User.findOne({ email: req.body.email });
+
+  if (!user) {
+    return res.status(UNAUTHORIZED).json({ message: 'email/password dont match' });
   }
+  const passwordIsValid = compareSync(req.body.password, user.password);
+  if (!passwordIsValid) {
+    return res.status(UNAUTHORIZED).json({ message: 'email/password dont match' });
+  }
+  return res.status(OK).json({ auth: true, token: createToken({ id: user._id }) });
 };
 
 export const register = async (req, res, next) => {
-  try {
-    const isUserExist =  await userProvider.checkIsExist({ email: req.body.email });
-    if(isUserExist) {
-      return next(new HttpConflictError('user already exsist'));
-    }
-
-    const user = await userProvider.create({
-      name: req.body.name,
-      email: req.body.email,
-      password: req.body.password
-    });
-    return res.status(OK).json({
-      auth: true,
-      token: createToken({ id: user._id }),
-      name: user.name,
-      email: user.email,
-    });
-  } catch (e) {
-    return next(e);
+  const user =  await User.findOne({ email: req.body.email });
+  if(user) {
+    return res.status(CONFLICT).json({ message: 'user already exsist' });
   }
+
+  const newUser = new User({
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password
+  });
+  await newUser.save();
+
+  return res.status(OK).json({
+    auth: true,
+    token: createToken({ id: newUser._id }),
+    name: newUser.name,
+    email: newUser.email,
+  });
 };
 
 export const getUser = async (req, res, next) => {
-  try {
-    const user = await userProvider.byPrimaryKey(req.userId);
-    return res.status(OK).json(user);
-  } catch (e) {
-    return next(e);
-  }
+  const user = await User.findOne({ _id: req.userId });
+
+  if(!user) return res.status(NOT_FOUND).json({ message: 'user not found'});
+
+  return res.status(OK).json(user);
 };
