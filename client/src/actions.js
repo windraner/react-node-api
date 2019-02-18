@@ -10,15 +10,19 @@ export const sendRegistrationAttempt = (data) => {
       data,
     };
 
+    dispatch({ type: CONSTANT.LOADING, payload: true });
+
     requestHandler(options)
       .then(response => {
         window.localStorage.setItem('token', response.data.token);
         dispatch({ type: CONSTANT.TOKEN, payload: response.data.token });
         browserHistory.push('/');
+        dispatch({ type: CONSTANT.LOADING, payload: false });
       }).catch(function (error) {
         if(error.response && error.response.data.message) {
           dispatch({ type: CONSTANT.ERROR, payload: error.response.data.message });
         }
+        dispatch({ type: CONSTANT.LOADING, payload: false });
       });
   };
 };
@@ -31,35 +35,19 @@ export const sendLoginAttempt = (data) => {
       data,
     };
 
+    dispatch({ type: CONSTANT.LOADING, payload: true });
+
     requestHandler(options)
       .then(response => {
         window.localStorage.setItem('token', response.data.token);
         dispatch({ type: CONSTANT.TOKEN, payload: response.data.token });
         browserHistory.push('/');
+        dispatch({ type: CONSTANT.LOADING, payload: false });
       }).catch(function (error) {
         if(error.response && error.response.data.message) {
           dispatch({ type: CONSTANT.ERROR, payload: error.response.data.message });
         }
-      });
-  };
-};
-
-export const sendCreateWorkerAttempt = (data) => {
-  return dispatch => {
-    const options = {
-      type: 'post',
-      url: '/create',
-      data,
-    };
-
-    requestHandler(options)
-      .then(response => {
-        dispatch({ type: CONSTANT.WORKERS_LIST, payload: response.data.workers });
-        dispatch({ type: CONSTANT.OPENED_MODAL, payload: null })
-      }).catch(function (error) {
-        if(error.response && error.response.data.message) {
-          dispatch({ type: CONSTANT.ERROR, payload: error.response.data.message });
-        }
+        dispatch({ type: CONSTANT.LOADING, payload: false });
       });
   };
 };
@@ -72,13 +60,87 @@ export const fetchWorkersList = (data) => {
       data,
     };
 
+    dispatch({ type: CONSTANT.LOADING, payload: true });
+
     requestHandler(options)
       .then(response => {
         dispatch({ type: CONSTANT.WORKERS_LIST, payload: response.data.workers });
+        dispatch({ type: CONSTANT.LOADING, payload: false });
       }).catch(function (error) {
         if(error.response && error.response.data.message) {
           dispatch({ type: CONSTANT.ERROR, payload: error.response.data.message });
         }
+        dispatch({ type: CONSTANT.LOADING, payload: false });
+      });
+  };
+};
+
+export const sendCreateWorkerAttempt = (data) => {
+  return dispatch => {
+    const options = {
+      type: 'post',
+      url: '/create',
+      data,
+    };
+
+    dispatch({ type: CONSTANT.LOADING, payload: true });
+
+    requestHandler(options)
+      .then(response => {
+        dispatch({ type: CONSTANT.WORKERS_LIST, payload: response.data.workers });
+        dispatch({ type: CONSTANT.OPENED_MODAL, payload: null });
+        dispatch({ type: CONSTANT.LOADING, payload: false });
+      }).catch(function (error) {
+        if(error.response && error.response.data.message) {
+          dispatch({ type: CONSTANT.ERROR, payload: error.response.data.message });
+        }
+        dispatch({ type: CONSTANT.LOADING, payload: false });
+      });
+  };
+};
+
+export const sendEditWorkerAttempt = (id, data) => {
+  return dispatch => {
+    const options = {
+      type: 'put',
+      url: `/update/${id}`,
+      data,
+    };
+
+    dispatch({ type: CONSTANT.LOADING, payload: true });
+
+    requestHandler(options)
+      .then(response => {
+        dispatch({ type: CONSTANT.WORKERS_LIST, payload: response.data.workers });
+        dispatch({ type: CONSTANT.OPENED_MODAL, payload: null });
+        dispatch({ type: CONSTANT.LOADING, payload: false });
+      }).catch(function (error) {
+        if(error.response && error.response.data.message) {
+          dispatch({ type: CONSTANT.ERROR, payload: error.response.data.message });
+        }
+        dispatch({ type: CONSTANT.LOADING, payload: false });
+      });
+  };
+};
+
+export const sendRemoveWorkerAttempt = (id) => {
+  return dispatch => {
+    const options = {
+      type: 'delete',
+      url: `/delete/${id}`,
+    };
+
+    dispatch({ type: CONSTANT.LOADING, payload: true });
+
+    requestHandler(options)
+      .then(response => {
+        dispatch({ type: CONSTANT.WORKERS_LIST, payload: response.data.workers });
+        dispatch({ type: CONSTANT.LOADING, payload: false });
+      }).catch(function (error) {
+        if(error.response && error.response.data.message) {
+          dispatch({ type: CONSTANT.ERROR, payload: error.response.data.message });
+        }
+        dispatch({ type: CONSTANT.LOADING, payload: false });
       });
   };
 };

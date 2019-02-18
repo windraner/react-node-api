@@ -4,7 +4,6 @@ import CustomButton from '../components/custom-button/CustomButton';
 import ErrorBar from '../components/error/ErrorBar';
 import { connect } from 'react-redux';
 import { sendLoginAttempt } from '../actions';
-import * as CONSTANT from '../constant';
 
 class LoginPage extends Component {
   state = {
@@ -24,7 +23,6 @@ class LoginPage extends Component {
 
   render() {
     const { email, password } = this.state;
-    const { error } = this.props;
 
     return (
       <div>
@@ -41,7 +39,7 @@ class LoginPage extends Component {
           setValue={(value) => this.setState({ password: value})}
         />
 
-        {error && <ErrorBar message={error} />}
+        <ErrorBar />
 
         <CustomButton
           text="Log In"
@@ -52,19 +50,10 @@ class LoginPage extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const token = state[CONSTANT.TOKEN];
-  const error = state[CONSTANT.ERROR];
-
-  return (
-    { token, error }
-  );
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
     sendLoginAttempt: (data) => dispatch(sendLoginAttempt(data)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);
+export default connect(null, mapDispatchToProps)(LoginPage);

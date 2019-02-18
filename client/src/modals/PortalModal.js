@@ -17,7 +17,7 @@ class PortalModal extends Component {
   render() {
     const { openedModal, closeModal } = this.props;
 
-    const modalList = ['CreateWorkerModal'];
+    const modalList = ['CreateWorkerModal', 'EditWorkerModal'];
     if(!modalList.includes(openedModal)) return null;
 
     const Component = require(`./${openedModal}`).default;

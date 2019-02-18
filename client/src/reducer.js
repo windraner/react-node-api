@@ -1,14 +1,23 @@
 import * as CONSTANT from './constant';
 
 const initialState = {
+  [CONSTANT.LOADING]: false,
   [CONSTANT.TOKEN]: '',
   [CONSTANT.ERROR]: '',
   [CONSTANT.OPENED_MODAL]: null,
+  [CONSTANT.OPENED_MODAL_ITEM]: null,
   [CONSTANT.WORKERS_LIST]: [],
 };
 
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
+    case CONSTANT.LOADING: {
+      return {
+        ...state,
+        [CONSTANT.LOADING]: action.payload,
+      };
+    }
+
     case CONSTANT.TOKEN: {
       return {
         ...state,
@@ -27,6 +36,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         [CONSTANT.OPENED_MODAL]: action.payload,
+        [CONSTANT.OPENED_MODAL_ITEM]: action.item,
       };
     }
 

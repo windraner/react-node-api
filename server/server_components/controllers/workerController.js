@@ -5,6 +5,20 @@ import { OK, BAD_REQUEST } from 'http-status';
 export const createWorkerSchema = {
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),
+  gender: Joi.string().required(),
+  contactInformation: Joi.string(),
+  salary: Joi.string().required(),
+  position: Joi.string().required(),
+};
+
+export const updateWorkerSchema = {
+  id: Joi.string().required(),
+  firstName: Joi.string().required(),
+  lastName: Joi.string().required(),
+  gender: Joi.string().required(),
+  contactInformation: Joi.string(),
+  salary: Joi.string().required(),
+  position: Joi.string().required(),
 };
 
 export const createWorker = async (req, res, next) => {
@@ -19,16 +33,24 @@ export const getWorkers = async (req, res, next) => {
 };
 
 exports.updateWorker = async (req, res) => {
-  const store = await Worker.findOneAndUpdate({ _id: req.body.id }, req.body, {
-    new: true, // return the new store instead of the old one
-    runValidators: true
+  req.body.updated_at = new Date();
+  const worker = await Worker.findOneAndUpdate({ _id: req.params.id }, req.body, {
+    new: true,
   }).exec();
 
-  return res.status(OK).json({ store });
+  if(!worker) return res.status(BAD_REQUEST).json({ message: 'worker does not exist' });
+
+  const workers = await Worker.find();
+
+  return res.status(OK).json({ workers });
 };
 
 exports.removeWorker = async (req, res) => {
-  await Worker.findOneAndDelete({ _id: req.params.id }).exec();
+  const worker = await Worker.findOneAndDelete({ _id: req.params.id }).exec();
 
-  return res.status(OK).json({ status: 'ok' });
+  if(!worker) return res.status(BAD_REQUEST).json({ message: 'worker does not exist' });
+
+  const workers = await Worker.find();
+
+  return res.status(OK).json({ workers });
 };

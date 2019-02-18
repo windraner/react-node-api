@@ -10,6 +10,8 @@ import SignUpPage from './containers/SignUpPage';
 import LogoutPage from './containers/LogoutPage';
 import HomePage from './containers/HomePage';
 
+import Loader from './components/loader/Loader';
+
 import { store } from './index';
 
 export const browserHistory = createHistory();
@@ -22,6 +24,7 @@ const checkIsAuth = (component) => {
   return (
     <Template>
       {component}
+      <Loader />
     </Template>
   );
 }
@@ -34,6 +37,7 @@ const checkIsNotAuth = (component) => {
   return (
     <Template>
       {component}
+      <Loader />
     </Template>
   );
 }

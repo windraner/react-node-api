@@ -16,6 +16,7 @@ import {
   updateWorker,
   removeWorker,
   createWorkerSchema,
+  updateWorkerSchema
 } from './controllers/workerController';
 import { catchErrors } from './helpers/errorHandlers';
 
@@ -45,13 +46,14 @@ router.post('/create',
   catchErrors(createWorker)
 );
 
-router.post('/update',
+router.put('/update/:id',
   verifyToken,
+  validate(updateWorkerSchema),
   catchErrors(updateWorker)
 );
 
-router.get('/delete/:id',
-  // verifyToken,
+router.delete('/delete/:id',
+  verifyToken,
   catchErrors(removeWorker)
 );
 

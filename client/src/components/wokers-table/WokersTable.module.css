@@ -20,17 +20,27 @@
 .item-cell {
   display: table-cell;
   border: solid 1px #000;
-  padding: 0.25rem 0;
+  padding: 0.75rem 0.5rem;
 }
 
 .item-edit {
   display: table-cell;
   width: 50px;
+  padding: 0 0.5rem;
   border: solid 1px #000;
+}
+
+.item-edit button {
+  background: #fffd8c;
 }
 
 .item-remove {
   display: table-cell;
   width: 70px;
+  padding: 0 0.5rem;
   border: solid 1px #000;
+}
+
+.item-remove button {
+  background: #ff8c8c;
 }

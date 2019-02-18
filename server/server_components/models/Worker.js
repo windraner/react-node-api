@@ -6,12 +6,27 @@ const workerSchema = new Schema({
   firstName: {
     type: String,
     trim: true,
-    required: 'Please Supply an first name'
+    required: 'Please Supply first name'
   },
   lastName: {
     type: String,
     trim: true,
-    required: 'Please Supply an last name'
+    required: 'Please Supply last name'
+  },
+  gender: {
+    type: String,
+    required: 'Please Supply gender'
+  },
+  contactInformation: {
+    type: String,
+  },
+  salary: {
+    type: String,
+    required: 'Please Supply salary'
+  },
+  position: {
+    type: String,
+    required: 'Please Supply position'
   },
   updated_at: Date,
   created_at: {

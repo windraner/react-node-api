@@ -4,7 +4,6 @@ import CustomButton from '../components/custom-button/CustomButton';
 import ErrorBar from '../components/error/ErrorBar';
 import { connect } from 'react-redux';
 import { sendRegistrationAttempt } from '../actions';
-import * as CONSTANT from '../constant';
 
 class SignUpPage extends Component {
   state = {
@@ -25,8 +24,7 @@ class SignUpPage extends Component {
   }
 
   render() {
-    const { name, email, password, confirm } = this.state;
-    const { error } = this.props;
+    const { name, email, password } = this.state;
 
     return (
       <div>
@@ -49,7 +47,7 @@ class SignUpPage extends Component {
           setValue={(value) => this.setState({ password: value})}
         />
 
-        {error && <ErrorBar message={error} />}
+        <ErrorBar />
 
         <CustomButton
           text="Create an account"
@@ -60,19 +58,10 @@ class SignUpPage extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  const token = state[CONSTANT.TOKEN];
-  const error = state[CONSTANT.ERROR];
-
-  return (
-    { token, error }
-  );
-};
-
 const mapDispatchToProps = (dispatch) => {
   return {
     sendRegistrationAttempt: (data) => dispatch(sendRegistrationAttempt(data)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpPage);
+export default connect(null, mapDispatchToProps)(SignUpPage);

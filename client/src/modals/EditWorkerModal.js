@@ -3,22 +3,29 @@ import CustomInput from '../components/custom-input/CustomInput';
 import CustomButton from '../components/custom-button/CustomButton';
 import ErrorBar from '../components/error/ErrorBar';
 import { connect } from 'react-redux';
-import { sendCreateWorkerAttempt } from '../actions';
+import { sendEditWorkerAttempt } from '../actions';
+import * as CONSTANT from '../constant';
 
 import styles from  './PortalModal.module.css';
 
-class CreateWorkerModal extends Component {
-  state = {
-    firstName: '',
-    lastName: '',
-    gender: '',
-    contactInformation: '',
-    salary: '',
-    position: '',
+class EditWorkerModal extends Component {
+  constructor(props) {
+    super();
+    const { firstName, lastName, gender, contactInformation, salary, position } = props.openedModalItem;
+    this.state = {
+      firstName,
+      lastName,
+      gender,
+      contactInformation,
+      salary,
+      position,
+    }
   }
 
-  createWorkerHandler = () => {
+
+  editWorkerHandler = () => {
     const { firstName, lastName, gender, contactInformation, salary, position } = this.state;
+    const { _id } = this.props.openedModalItem;
 
     const data = {
       firstName,
@@ -29,7 +36,7 @@ class CreateWorkerModal extends Component {
       position
     };
 
-    this.props.sendCreateWorkerAttempt(data);
+    this.props.sendEditWorkerAttempt(_id, data);
   }
 
   render() {
@@ -37,7 +44,7 @@ class CreateWorkerModal extends Component {
 
     return (
       <div className={styles['modal-wrapper']}>
-        <div className={styles['modal-title']}>Create modal</div>
+        <div className={styles['modal-title']}>Edit modal</div>
 
         <CustomInput
           title="first name"
@@ -79,18 +86,26 @@ class CreateWorkerModal extends Component {
         <ErrorBar />
 
         <CustomButton
-          text="add worker"
-          clickHandler={this.createWorkerHandler}
+          text="edit worker"
+          clickHandler={this.editWorkerHandler}
         />
       </div>
     )
   }
 }
 
+const mapStateToProps = (state) => {
+  const openedModalItem = state[CONSTANT.OPENED_MODAL_ITEM];
+
+  return (
+    { openedModalItem }
+  );
+};
+
 const mapDispatchToProps = (dispatch) => {
   return {
-    sendCreateWorkerAttempt: (data) => dispatch(sendCreateWorkerAttempt(data)),
+    sendEditWorkerAttempt: (id, data) => dispatch(sendEditWorkerAttempt(id, data)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(CreateWorkerModal);
+export default connect(mapStateToProps, mapDispatchToProps)(EditWorkerModal);
