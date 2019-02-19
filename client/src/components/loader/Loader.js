@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import * as CONSTANT from '../../constant';
+import PropTypes from 'prop-types';
 
 import stules from './Loader.module.css';
 
@@ -17,6 +18,10 @@ const Loader = ({ loading }) => {
       </div>
     </div>
   );
+};
+
+Loader.propTypes = {
+  loading: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = (state) => {

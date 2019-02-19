@@ -52,8 +52,12 @@ export const sendLoginAttempt = (data) => {
   };
 };
 
-export const fetchWorkersList = (data) => {
-  return dispatch => {
+export const fetchWorkersList = (data = {}) => {
+  return (dispatch, getState) => {
+
+    data.page = getState()[CONSTANT.PAGE];
+    data.q = getState()[CONSTANT.QUERY];
+
     const options = {
       type: 'post',
       url: '/',
@@ -65,6 +69,8 @@ export const fetchWorkersList = (data) => {
     requestHandler(options)
       .then(response => {
         dispatch({ type: CONSTANT.WORKERS_LIST, payload: response.data.workers });
+        dispatch({ type: CONSTANT.PAGE, payload: response.data.page });
+        dispatch({ type: CONSTANT.PAGE_COUNT, payload: response.data.pages });
         dispatch({ type: CONSTANT.LOADING, payload: false });
       }).catch(function (error) {
         if(error.response && error.response.data.message) {
@@ -76,7 +82,8 @@ export const fetchWorkersList = (data) => {
 };
 
 export const sendCreateWorkerAttempt = (data) => {
-  return dispatch => {
+  return (dispatch) => {
+
     const options = {
       type: 'post',
       url: '/create',
@@ -86,10 +93,9 @@ export const sendCreateWorkerAttempt = (data) => {
     dispatch({ type: CONSTANT.LOADING, payload: true });
 
     requestHandler(options)
-      .then(response => {
-        dispatch({ type: CONSTANT.WORKERS_LIST, payload: response.data.workers });
+      .then(() => {
         dispatch({ type: CONSTANT.OPENED_MODAL, payload: null });
-        dispatch({ type: CONSTANT.LOADING, payload: false });
+        dispatch(fetchWorkersList());
       }).catch(function (error) {
         if(error.response && error.response.data.message) {
           dispatch({ type: CONSTANT.ERROR, payload: error.response.data.message });
@@ -100,7 +106,8 @@ export const sendCreateWorkerAttempt = (data) => {
 };
 
 export const sendEditWorkerAttempt = (id, data) => {
-  return dispatch => {
+  return (dispatch) => {
+
     const options = {
       type: 'put',
       url: `/update/${id}`,
@@ -110,10 +117,9 @@ export const sendEditWorkerAttempt = (id, data) => {
     dispatch({ type: CONSTANT.LOADING, payload: true });
 
     requestHandler(options)
-      .then(response => {
-        dispatch({ type: CONSTANT.WORKERS_LIST, payload: response.data.workers });
+      .then(() => {
         dispatch({ type: CONSTANT.OPENED_MODAL, payload: null });
-        dispatch({ type: CONSTANT.LOADING, payload: false });
+        dispatch(fetchWorkersList());
       }).catch(function (error) {
         if(error.response && error.response.data.message) {
           dispatch({ type: CONSTANT.ERROR, payload: error.response.data.message });
@@ -124,7 +130,8 @@ export const sendEditWorkerAttempt = (id, data) => {
 };
 
 export const sendRemoveWorkerAttempt = (id) => {
-  return dispatch => {
+  return (dispatch) => {
+
     const options = {
       type: 'delete',
       url: `/delete/${id}`,
@@ -133,9 +140,8 @@ export const sendRemoveWorkerAttempt = (id) => {
     dispatch({ type: CONSTANT.LOADING, payload: true });
 
     requestHandler(options)
-      .then(response => {
-        dispatch({ type: CONSTANT.WORKERS_LIST, payload: response.data.workers });
-        dispatch({ type: CONSTANT.LOADING, payload: false });
+      .then(() => {
+        dispatch(fetchWorkersList());
       }).catch(function (error) {
         if(error.response && error.response.data.message) {
           dispatch({ type: CONSTANT.ERROR, payload: error.response.data.message });

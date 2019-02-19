@@ -5,6 +5,7 @@ import ErrorBar from '../components/error/ErrorBar';
 import { connect } from 'react-redux';
 import { sendEditWorkerAttempt } from '../actions';
 import * as CONSTANT from '../constant';
+import PropTypes from 'prop-types';
 
 import styles from  './PortalModal.module.css';
 
@@ -22,6 +23,13 @@ class EditWorkerModal extends Component {
     }
   }
 
+  componentDidMount() {
+    document.body.classList.add(styles['modal-open']);
+  }
+
+  componentWillUnmount () {
+    document.body.classList.remove(styles['modal-open']);
+  }
 
   editWorkerHandler = () => {
     const { firstName, lastName, gender, contactInformation, salary, position } = this.state;
@@ -93,6 +101,11 @@ class EditWorkerModal extends Component {
     )
   }
 }
+
+EditWorkerModal.propTypes = {
+  openedModalItem: PropTypes.string,
+  sendEditWorkerAttempt: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => {
   const openedModalItem = state[CONSTANT.OPENED_MODAL_ITEM];

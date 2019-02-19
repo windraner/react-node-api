@@ -2,18 +2,11 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { connect } from 'react-redux';
 import * as CONSTANT from '../constant';
+import PropTypes from 'prop-types';
 
 import styles from  './PortalModal.module.css';
 
 class PortalModal extends Component {
-  componentDidMount() {
-    document.body.classList.add(styles['modal-open']);
-  }
-
-  componentWillUnmount () {
-    document.body.classList.remove(styles['modal-open']);
-  }
-
   render() {
     const { openedModal, closeModal } = this.props;
 
@@ -42,6 +35,11 @@ class PortalModal extends Component {
     );
   }
 }
+
+PortalModal.propTypes = {
+  openedModal: PropTypes.string,
+  closeModal: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => {
   const openedModal = state[CONSTANT.OPENED_MODAL];

@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import CustomButton from '../custom-button/CustomButton';
-
 import { connect } from 'react-redux';
 import * as CONSTANT from '../../constant';
 import { fetchWorkersList, sendRemoveWorkerAttempt } from '../../actions';
+import PropTypes from 'prop-types';
 
 import styles from './WokersTable.module.css';
 
@@ -15,7 +15,10 @@ class WokersTable extends Component {
   renderWorkers = () => {
     const { workersList, sendRemoveWorkerAttempt, openEditWorkerModal } = this.props;
 
+    if(workersList.length === 0 ) return <div>No results...</div>
+
     const cellTitle = {
+      _id: 'title',
       firstName: 'First name',
       lastName: 'Last name',
       gender: 'Gender',
@@ -86,6 +89,14 @@ class WokersTable extends Component {
     )
   }
 }
+
+WokersTable.propTypes = {
+  workersList: PropTypes.array.isRequired,
+  openCreateWorkerModal: PropTypes.func.isRequired,
+  openEditWorkerModal: PropTypes.func.isRequired,
+  fetchWorkersList: PropTypes.func.isRequired,
+  sendRemoveWorkerAttempt: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => {
   const workersList = state[CONSTANT.WORKERS_LIST];

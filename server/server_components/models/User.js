@@ -46,16 +46,6 @@ const userSchema = new Schema({
   versionKey: false
 });
 
-userSchema.pre('save', async function (next) {
-  const user = this;
-  user.updatedAt = Date.now;
-  if (user.isModified('password')) {
-      user.password = await encryptPassword(user.password);
-  }
-
-  return next();
-});
-
 userSchema.methods.checkPassword = function (password) {
   return compareSync(password, this.password);
 };
@@ -63,6 +53,7 @@ userSchema.methods.checkPassword = function (password) {
 userSchema.set('toJSON', {
   transform: function (doc, ret, options) {
     return {
+      name: ret.name,
       email: ret.email,
       id: ret._id
     };

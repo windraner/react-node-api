@@ -35,4 +35,13 @@ const workerSchema = new Schema({
   },
 });
 
+workerSchema.index({
+  firstName: 'text',
+  lastName: 'text',
+  gender: 'text',
+  contactInformation: 'text',
+  salary: 'text',
+  positionposition: 'text',
+});
+
 module.exports = mongoose.model('Worker', workerSchema);

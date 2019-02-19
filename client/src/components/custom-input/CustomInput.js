@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import styles from './CustomInput.module.css';
 
 const CustomInput = ({title, value, type, setValue}) => {
@@ -15,5 +17,12 @@ const CustomInput = ({title, value, type, setValue}) => {
     </div>
   )
 }
+
+CustomInput.propTypes = {
+  title: PropTypes.string,
+  value: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  setValue: PropTypes.func.isRequired,
+};
 
 export default CustomInput;

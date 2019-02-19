@@ -1,0 +1,23 @@
+.filter-input {
+  color: #354052;
+  font-size: 0.875rem;
+  border: 1px solid #d0d6de;
+  border-radius: 4px;
+  width: 10.625rem;
+  padding: 0.5rem 0.75rem 0.5rem;
+  outline: none;
+}
+
+.filter-input::placeholder {
+  color: #b0b0b1;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.filter-input:hover {
+  border-color: #bfc4cb;
+}
+
+.filter-input:focus {
+  border-color: #a9b0b8;
+}

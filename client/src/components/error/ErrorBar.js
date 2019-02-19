@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import * as CONSTANT from '../../constant';
+import PropTypes from 'prop-types';
 
 import styles from './ErrorBar.module.css';
 
@@ -21,6 +22,11 @@ class ErrorBar extends Component {
     )
   }
 }
+
+ErrorBar.propTypes = {
+  error: PropTypes.string,
+  removeError: PropTypes.func.isRequired,
+};
 
 const mapStateToProps = (state) => {
   const error = state[CONSTANT.ERROR];

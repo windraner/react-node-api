@@ -4,6 +4,7 @@ import CustomButton from '../components/custom-button/CustomButton';
 import ErrorBar from '../components/error/ErrorBar';
 import { connect } from 'react-redux';
 import { sendRegistrationAttempt } from '../actions';
+import PropTypes from 'prop-types';
 
 class SignUpPage extends Component {
   state = {
@@ -57,6 +58,10 @@ class SignUpPage extends Component {
     )
   }
 }
+
+SignUpPage.propTypes = {
+  sendRegistrationAttempt: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {

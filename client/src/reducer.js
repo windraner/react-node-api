@@ -7,6 +7,9 @@ const initialState = {
   [CONSTANT.OPENED_MODAL]: null,
   [CONSTANT.OPENED_MODAL_ITEM]: null,
   [CONSTANT.WORKERS_LIST]: [],
+  [CONSTANT.PAGE]: 1,
+  [CONSTANT.PAGE_COUNT]: 1,
+  [CONSTANT.QUERY]: '',
 };
 
 export default function reducer(state = initialState, action) {
@@ -44,6 +47,27 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         [CONSTANT.WORKERS_LIST]: action.payload,
+      };
+    }
+
+    case CONSTANT.PAGE: {
+      return {
+        ...state,
+        [CONSTANT.PAGE]: action.payload,
+      };
+    }
+
+    case CONSTANT.PAGE_COUNT: {
+      return {
+        ...state,
+        [CONSTANT.PAGE_COUNT]: action.payload,
+      };
+    }
+
+    case CONSTANT.QUERY: {
+      return {
+        ...state,
+        [CONSTANT.QUERY]: action.payload,
       };
     }
 

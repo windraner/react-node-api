@@ -8,3 +8,8 @@ export const OPENED_MODAL_ITEM = 'openedModalItem';
 export const WORKERS_LIST = 'workersList';
 
 export const SET_USER_DATA = 'SET_USER_DATA';
+
+export const PAGE = 'page';
+export const PAGE_COUNT = 'pageCount';
+
+export const QUERY = 'query';

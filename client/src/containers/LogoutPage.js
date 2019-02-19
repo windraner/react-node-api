@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as CONSTANT from '../constant';
+import PropTypes from 'prop-types';
 
 class LogoutPage extends Component {
   componentDidMount() {
@@ -13,6 +14,10 @@ class LogoutPage extends Component {
     return <Redirect to="/login" />;
   }
 }
+
+LogoutPage.propTypes = {
+  setToken: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {

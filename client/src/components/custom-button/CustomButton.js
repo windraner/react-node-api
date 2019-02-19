@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+import PropTypes from 'prop-types';
+
 import styles from  './CustomButton.module.css';
 
 const CustomButton = ({ text, className, disabled, clickHandler}) => {
@@ -13,5 +15,12 @@ const CustomButton = ({ text, className, disabled, clickHandler}) => {
     </button>
   )
 }
+
+CustomButton.propTypes = {
+  text: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
+  clickHandler: PropTypes.func.isRequired,
+};
 
 export default CustomButton;

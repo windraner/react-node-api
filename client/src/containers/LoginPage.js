@@ -4,6 +4,7 @@ import CustomButton from '../components/custom-button/CustomButton';
 import ErrorBar from '../components/error/ErrorBar';
 import { connect } from 'react-redux';
 import { sendLoginAttempt } from '../actions';
+import PropTypes from 'prop-types';
 
 class LoginPage extends Component {
   state = {
@@ -49,6 +50,10 @@ class LoginPage extends Component {
     )
   }
 }
+
+LoginPage.propTypes = {
+  sendLoginAttempt: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {

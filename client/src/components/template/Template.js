@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import * as CONSTANT from '../../constant';
+import PropTypes from 'prop-types';
 
 import styles from './Template.module.css';
 
@@ -59,8 +61,12 @@ class Template extends Component {
   }
 }
 
+Template.propTypes = {
+  token: PropTypes.string.isRequired,
+};
+
 const mapStateToProps = (state) => {
-  const { token } = state;
+  const token = state[CONSTANT.TOKEN];
 
   return (
     { token }

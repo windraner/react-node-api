@@ -4,6 +4,7 @@ import CustomButton from '../components/custom-button/CustomButton';
 import ErrorBar from '../components/error/ErrorBar';
 import { connect } from 'react-redux';
 import { sendCreateWorkerAttempt } from '../actions';
+import PropTypes from 'prop-types';
 
 import styles from  './PortalModal.module.css';
 
@@ -15,6 +16,14 @@ class CreateWorkerModal extends Component {
     contactInformation: '',
     salary: '',
     position: '',
+  }
+
+  componentDidMount() {
+    document.body.classList.add(styles['modal-open']);
+  }
+
+  componentWillUnmount () {
+    document.body.classList.remove(styles['modal-open']);
   }
 
   createWorkerHandler = () => {
@@ -86,6 +95,10 @@ class CreateWorkerModal extends Component {
     )
   }
 }
+
+CreateWorkerModal.propTypes = {
+  sendCreateWorkerAttempt: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
