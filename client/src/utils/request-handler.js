@@ -6,7 +6,7 @@ export default (options) => {
 	const token = window.localStorage.getItem('token');
 
 	options.data = options.data || {}
-	options.url = 'http://localhost:8080' + options.url;
+	options.url = process.env.REACT_APP_API_URL + options.url;
 
 	let axiosOptions = {
 		url: options.url,

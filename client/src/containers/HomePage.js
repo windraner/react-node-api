@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PortalModal from '../modals/PortalModal';
 import SearchInput from '../components/search-input/SearchInput';
 import CustomButton from '../components/custom-button/CustomButton';
@@ -10,31 +10,26 @@ import PropTypes from 'prop-types';
 
 import styles from '../common.module.css';
 
-class HomePage extends Component {
+const HomePage = ({ openCreateWorkerModal }) => {
+  return (
+    <div>
+      <div className={styles['home-header']}>
+        <SearchInput />
 
-  render() {
-    const { openCreateWorkerModal } = this.props;
-
-    return (
-      <div>
-        <div className={styles['home-header']}>
-          <SearchInput />
-
-          <CustomButton
-            text="add worker"
-            clickHandler={openCreateWorkerModal}
-          />
-        </div>
-
-        <WokersTable />
-
-        <Pagination />
-
-        <PortalModal />
+        <CustomButton
+          text="add worker"
+          clickHandler={openCreateWorkerModal}
+        />
       </div>
-    )
-  }
-}
+
+      <WokersTable />
+
+      <Pagination />
+
+      <PortalModal />
+    </div>
+  );
+};
 
 HomePage.propTypes = {
   openCreateWorkerModal: PropTypes.func.isRequired,

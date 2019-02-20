@@ -23,7 +23,7 @@ const options = {
 }
 
 requestHandler(options)
-  .then((res) => {
+  .then(() => {
     store.dispatch({ type: CONSTANT.TOKEN, payload: token });
 
     ReactDOM.render(<App store={store} />, document.getElementById('root'));

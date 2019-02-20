@@ -31,7 +31,6 @@ const userSchema = new Schema({
   },
   name: {
     type: String,
-    // required: 'Please supply a name',
     trim: true
   },
   updated_at: Date,
